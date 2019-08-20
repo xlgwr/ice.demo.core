@@ -40,6 +40,24 @@ namespace Demo
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.7.2")]
     public delegate void Callback_Printer_printString();
+
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.7.2")]
+    public delegate void Callback_Printer_op(string ret, string sout);
+}
+
+namespace Demo
+{
+    public struct Printer_OpResult
+    {
+        public Printer_OpResult(string returnValue, string sout)
+        {
+            this.returnValue = returnValue;
+            this.sout = sout;
+        }
+
+        public string returnValue;
+        public string sout;
+    }
 }
 
 namespace Demo
@@ -58,6 +76,18 @@ namespace Demo
         global::Ice.AsyncResult begin_printString(string s, global::Ice.OptionalContext context, global::Ice.AsyncCallback callback, object cookie);
 
         void end_printString(global::Ice.AsyncResult asyncResult);
+
+        string op(string sin, out string sout, global::Ice.OptionalContext context = new global::Ice.OptionalContext());
+
+        global::System.Threading.Tasks.Task<Printer_OpResult> opAsync(string sin, global::Ice.OptionalContext context = new global::Ice.OptionalContext(), global::System.IProgress<bool> progress = null, global::System.Threading.CancellationToken cancel = new global::System.Threading.CancellationToken());
+
+        global::Ice.AsyncResult<Callback_Printer_op> begin_op(string sin, global::Ice.OptionalContext context = new global::Ice.OptionalContext());
+
+        global::Ice.AsyncResult begin_op(string sin, global::Ice.AsyncCallback callback, object cookie);
+
+        global::Ice.AsyncResult begin_op(string sin, global::Ice.OptionalContext context, global::Ice.AsyncCallback callback, object cookie);
+
+        string end_op(out string sout, global::Ice.AsyncResult asyncResult);
     }
 }
 
@@ -68,6 +98,9 @@ namespace Demo
     {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.7.2")]
         void printString(string s, global::Ice.Current current = null);
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.7.2")]
+        string op(string sin, out string sout, global::Ice.Current current = null);
     }
 }
 
@@ -93,6 +126,20 @@ namespace Demo
             try
             {
                 _iceI_printStringAsync(s, context, null, global::System.Threading.CancellationToken.None, true).Wait();
+            }
+            catch(global::System.AggregateException ex_)
+            {
+                throw ex_.InnerException;
+            }
+        }
+
+        public string op(string sin, out string sout, global::Ice.OptionalContext context = new global::Ice.OptionalContext())
+        {
+            try
+            {
+                var result_ = _iceI_opAsync(sin, context, null, global::System.Threading.CancellationToken.None, true).Result;
+                sout = result_.sout;
+                return result_.returnValue;
             }
             catch(global::System.AggregateException ex_)
             {
@@ -133,6 +180,43 @@ namespace Demo
                 });
         }
 
+        public global::System.Threading.Tasks.Task<Printer_OpResult> opAsync(string sin, global::Ice.OptionalContext context = new global::Ice.OptionalContext(), global::System.IProgress<bool> progress = null, global::System.Threading.CancellationToken cancel = new global::System.Threading.CancellationToken())
+        {
+            return _iceI_opAsync(sin, context, progress, cancel, false);
+        }
+
+        private global::System.Threading.Tasks.Task<Printer_OpResult> _iceI_opAsync(string iceP_sin, global::Ice.OptionalContext context, global::System.IProgress<bool> progress, global::System.Threading.CancellationToken cancel, bool synchronous)
+        {
+            iceCheckTwowayOnly(_op_name);
+            var completed = new global::IceInternal.OperationTaskCompletionCallback<Printer_OpResult>(progress, cancel);
+            _iceI_op(iceP_sin, context, synchronous, completed);
+            return completed.Task;
+        }
+
+        private const string _op_name = "op";
+
+        private void _iceI_op(string iceP_sin, global::System.Collections.Generic.Dictionary<string, string> context, bool synchronous, global::IceInternal.OutgoingAsyncCompletionCallback completed)
+        {
+            var outAsync = getOutgoingAsync<Printer_OpResult>(completed);
+            outAsync.invoke(
+                _op_name,
+                global::Ice.OperationMode.Normal,
+                global::Ice.FormatType.DefaultFormat,
+                context,
+                synchronous,
+                write: (global::Ice.OutputStream ostr) =>
+                {
+                    ostr.writeString(iceP_sin);
+                },
+                read: (global::Ice.InputStream istr) =>
+                {
+                    Printer_OpResult ret = new Printer_OpResult();
+                    ret.sout = istr.readString();
+                    ret.returnValue = istr.readString();
+                    return ret;
+                });
+        }
+
         #endregion
 
         #region Asynchronous operations
@@ -170,6 +254,46 @@ namespace Demo
                 },
                 this, _printString_name, cookie, completedCallback);
             _iceI_printString(iceP_s, context, synchronous, completed);
+            return completed;
+        }
+
+        public global::Ice.AsyncResult<Callback_Printer_op> begin_op(string sin, global::Ice.OptionalContext context = new global::Ice.OptionalContext())
+        {
+            return begin_op(sin, context, null, null, false);
+        }
+
+        public global::Ice.AsyncResult begin_op(string sin, global::Ice.AsyncCallback callback, object cookie)
+        {
+            return begin_op(sin, new global::Ice.OptionalContext(), callback, cookie, false);
+        }
+
+        public global::Ice.AsyncResult begin_op(string sin, global::Ice.OptionalContext context, global::Ice.AsyncCallback callback, object cookie)
+        {
+            return begin_op(sin, context, callback, cookie, false);
+        }
+
+        public string end_op(out string sout, global::Ice.AsyncResult asyncResult)
+        {
+            var resultI_ = global::IceInternal.AsyncResultI.check(asyncResult, this, _op_name);
+            var outgoing_ = (global::IceInternal.OutgoingAsyncT<Printer_OpResult>)resultI_.OutgoingAsync;
+            var result_ = outgoing_.getResult(resultI_.wait());
+            sout = result_.sout;
+            return result_.returnValue;
+        }
+
+        private global::Ice.AsyncResult<Callback_Printer_op> begin_op(string iceP_sin, global::System.Collections.Generic.Dictionary<string, string> context, global::Ice.AsyncCallback completedCallback, object cookie, bool synchronous)
+        {
+            iceCheckAsyncTwowayOnly(_op_name);
+            var completed = new global::IceInternal.OperationAsyncResultCompletionCallback<Callback_Printer_op, Printer_OpResult>(
+                (Callback_Printer_op cb, Printer_OpResult ret) =>
+                {
+                    if(cb != null)
+                    {
+                        cb.Invoke(ret.returnValue, ret.sout);
+                    }
+                },
+                this, _op_name, cookie, completedCallback);
+            _iceI_op(iceP_sin, context, synchronous, completed);
             return completed;
         }
 
@@ -327,6 +451,8 @@ namespace Demo
 
         public abstract void printString(string s, global::Ice.Current current = null);
 
+        public abstract string op(string sin, out string sout, global::Ice.Current current = null);
+
         #endregion
 
         #region Slice type-related members
@@ -374,12 +500,31 @@ namespace Demo
             return inS.setResult(inS.writeEmptyParams());
         }
 
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011")]
+        public static global::System.Threading.Tasks.Task<global::Ice.OutputStream>
+        iceD_op(Printer obj, global::IceInternal.Incoming inS, global::Ice.Current current)
+        {
+            global::Ice.ObjectImpl.iceCheckMode(global::Ice.OperationMode.Normal, current.mode);
+            var istr = inS.startReadParams();
+            string iceP_sin;
+            iceP_sin = istr.readString();
+            inS.endReadParams();
+            string iceP_sout;
+            var ret = obj.op(iceP_sin, out iceP_sout, current);
+            var ostr = inS.startWriteParams();
+            ostr.writeString(iceP_sout);
+            ostr.writeString(ret);
+            inS.endWriteParams(ostr);
+            return inS.setResult(ostr);
+        }
+
         private static readonly string[] _all =
         {
             "ice_id",
             "ice_ids",
             "ice_isA",
             "ice_ping",
+            "op",
             "printString"
         };
 
@@ -411,6 +556,10 @@ namespace Demo
                     return global::Ice.ObjectImpl.iceD_ice_ping(this, inS, current);
                 }
                 case 4:
+                {
+                    return iceD_op(this, inS, current);
+                }
+                case 5:
                 {
                     return iceD_printString(this, inS, current);
                 }
