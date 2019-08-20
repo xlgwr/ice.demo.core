@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-     <!-- <SliceCompile Include="../Slice/Example.ice" /> -->
+     <SliceCompile Include="../Slice/Example.ice" />
      <SliceCompile Include="../Slice/Printer.ice" />
      <SliceCompile Include="../Slice/Filesystem.ice" /> 
     <PackageReference Include="zeroc.ice.net" Version="3.7.2" />
