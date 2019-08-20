@@ -6,9 +6,18 @@ namespace Server {
             Console.WriteLine (s);
         }
         public override string op (string sin, out string sout, Ice.Current current = null) {
-            Console.WriteLine (sin); // In params are initialized
-            sout = "Hello World! server:"+DateTime.Now; // Assign out param
-            return "Done";
+            sout = "";
+            try {
+                // Try to write file contents here...
+                Console.WriteLine (sin); // In params are initialized
+                sout = "Hello World! server:" + DateTime.Now; // Assign out param
+                return "Done";
+            } catch (System.Exception ex) {
+                // GenericError e = new GenericError ("cannot write file", ex);
+                // e.reason = "Exception during write operation";
+                 throw ex;
+            }
+            return "Faile"; 
         }
     }
 
